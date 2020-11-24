@@ -13,7 +13,8 @@ use App\Application\Actions\User\LoginUserAction;
 
 // Message
 use App\Application\Actions\Message\ListMessagesAction;
-use App\Application\Actions\Message\GetMessageAction;
+use App\Application\Actions\Message\GetReceiveMessageAction;
+use App\Application\Actions\Message\GetSendMessageAction;
 use App\Application\Actions\Message\CreateMessageAction;
 use App\Application\Actions\Message\UpdateMessageAction;
 use App\Application\Actions\Message\DeleteMessageAction;
@@ -43,13 +44,14 @@ return function (App $app) {
         $group->get('/{id}', GetUserAction::class);
         $group->post('/create', CreateUserAction::class);
         $group->put('/{id}/update', UpdateUserAction::class);
-        $group->delete('/{id}/delete', DeleteUserAction::class); // si id = id 
+        $group->delete('/{id}/delete', DeleteUserAction::class);
         $group->post('/login', LoginUserAction::class);
     });
 
     $app->group('/messages', function (Group $group) {
         $group->get('', ListMessagesAction::class);
-        $group->get('/{id}', GetMessageAction::class);
+        $group->get('/receive/{id}', GetReceiveMessageAction::class);
+        $group->get('/send/{id}', GetSendMessageAction::class);
         $group->post('/create', CreateMessageAction::class);
         $group->put('/{id}/update', UpdateMessageAction::class);
         $group->delete('/{id}/delete', DeleteMessageAction::class);

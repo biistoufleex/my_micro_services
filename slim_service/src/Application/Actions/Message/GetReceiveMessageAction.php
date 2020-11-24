@@ -7,7 +7,7 @@ namespace App\Application\Actions\Message;
 use Psr\Http\Message\ResponseInterface as Response;
 use \Firebase\JWT\JWT;
 
-class GetMessageAction extends MessageAction
+class GetReceiveMessageAction extends MessageAction
 {
     protected function action(): Response
     {
@@ -27,7 +27,7 @@ class GetMessageAction extends MessageAction
             return $this->respondWithData(['error'=>'Not allowed'], 400);
 
         $message = $this->message->where('receiver_id', 'like', $receiver_id)->get();
-        
+
         return $this->respondWithData($message);
     }
 }
