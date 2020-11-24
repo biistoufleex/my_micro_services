@@ -14,7 +14,8 @@ class CreateUserAction extends UserAction
         $data = $this->request->getParsedBody();
         $user = new User;
         $user->username = $data["username"];
-        $user->password = $data["password"];
+        $hash = password_hash($data["password"], PASSWORD_DEFAULT);
+        $user->password = $hash;
         $user->save();
         return $this->respondWithData($user);
     }
