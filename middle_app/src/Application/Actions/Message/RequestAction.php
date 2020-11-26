@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Request;
+namespace App\Application\Actions\Message;
 
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;

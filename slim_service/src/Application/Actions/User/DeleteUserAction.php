@@ -23,7 +23,7 @@ class DeleteUserAction extends UserAction
 
         $userId = (int) $this->resolveArg('id');
         if ($userId != $token->userId)
-            return $this->respondWithData(['error'=>'Id in url and token doesnt match'], 400);
+            return $this->respondWithData(['error'=>'Not your account'], 400);
 
         $userId = (int) $this->resolveArg('id');
         $user = $this->user->destroy($userId);

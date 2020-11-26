@@ -1,0 +1,11 @@
+stdClass Object
+(
+    [statusCode] => 200
+    [data] => stdClass Object
+        (
+            [username] => test
+            [token] => eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjQwMTM3NiwiZXhwIjoxNjA2NDA4NTc2fQ.BISu3iUdKGiwJQWGVfjlL1TGWNKLtpnXyNDCSuBaZYU
+            [expires] => 1606408576
+        )
+
+)

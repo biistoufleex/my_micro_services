@@ -12,8 +12,16 @@ class CreateUserAction extends UserAction
     protected function action(): Response
     {
         $data = $this->request->getParsedBody();
+        if (
+            !isset($data['username']) || !isset($data['password']) ||
+            $data['username'] == null || $data['password'] == null
+            ) {
+            return $this->respondWithData(['error'=>'Username and Password cant be blank'], 400);
+        }
         $username = (string) $data['username'];
         $password = (string) $data['password'];
+
+
 
         $exists = $this->user->where('username', 'like', $username)->exists();
 

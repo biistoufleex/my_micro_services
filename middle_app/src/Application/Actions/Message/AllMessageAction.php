@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Request;
+namespace App\Application\Actions\Message;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 
-class LoginAction extends RequestAction
+class AllMessageAction extends RequestAction
 {
     protected function action(): Response
     {
-        $data = $this->request->getParsedBody();
         $client = new Client();
         try {
-            $result = $client->request('POST', 'http://localhost:8080/users/login', [
-                'form_params' => [
-                    'username' => $data['username'],
-                    'password' => $data['password'],
-                ]
-            ]);
+            $result = $client->get('http://localhost:8080/messages');
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             if ($e->hasResponse()) {
@@ -31,11 +25,8 @@ class LoginAction extends RequestAction
                 return $response;
             }
         }
-
         $response = json_decode($result->getBody()->read(10241));
-        $res = $this->response->withHeader('Content-type', 'application/json');
-        $token = $response->data->token;   
-        
-        return $this->respondWithData($response, 200)->withHeader('token', $token);
+
+        return $this->respondWithData($response->data, 200);
     }
 }
