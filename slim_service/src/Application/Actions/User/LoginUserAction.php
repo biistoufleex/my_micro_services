@@ -41,8 +41,6 @@ class LoginUserAction extends UserAction
         $result["token"] = $token;
         $result["expires"] = $future->getTimeStamp();
 
-        // set token dans header Authorization
-
-        return $this->respondWithData($result, 200);
+        return $this->respondWithData($result, 200)->withHeader('token', $token);
     }
 }
