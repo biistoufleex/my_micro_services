@@ -2,28 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\User;
+namespace App\Application\Actions\Message;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 
-class UpdateAction extends RequestAction
+class AllDiscussionAction extends RequestAction
 {
     protected function action(): Response
     {
-        $data = $this->request->getParsedBody();
-        if (!isset($data['token'])) {
-            return $this->respondWithData(['error' => 'token required'], 400);
-        }
-        $token = $data['token'];
-      
-        $client = new Client(['headers' => ['autorisation' => $token]]);
-    
+        $userId = (int) $this->resolveArg('id');
+        $client = new Client();
         try {
-            $result = $client->request('PUT', 'http://localhost:8080/users/' . $data['id'] . '/update', [
-                'form_params' => $data
-            ]);
+            $result = $client->get('http://localhost:8000/allDiscussion/' . $userId);
 
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             if ($e->hasResponse()) {
@@ -36,6 +28,6 @@ class UpdateAction extends RequestAction
         }
         $response = json_decode($result->getBody()->read(10241));
 
-        return $this->respondWithData($response->data, 200);
+        return $this->respondWithData($response, 200);
     }
 }

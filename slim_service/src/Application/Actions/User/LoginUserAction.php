@@ -38,6 +38,7 @@ class LoginUserAction extends UserAction
         $token = JWT::encode($payload, $secret, "HS256");
         
         $result['username'] = $user->username;
+        $result['userId'] = $user->id;
         $result["token"] = $token;
         $result["expires"] = $future->getTimeStamp();
 

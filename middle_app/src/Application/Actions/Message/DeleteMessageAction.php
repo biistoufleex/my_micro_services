@@ -12,9 +12,9 @@ class DeleteMessageAction extends RequestAction
 {
     protected function action(): Response
     {
+        $data = $this->parseBody();
         $userId = (int) $this->resolveArg('id');
-        // get cookie token
-        $client = new Client(['headers' => ['autorisation' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjQwMTM3NiwiZXhwIjoxNjA2NDA4NTc2fQ.BISu3iUdKGiwJQWGVfjlL1TGWNKLtpnXyNDCSuBaZYU']]);
+        $client = new Client(['headers' => ['autorisation' => $data['token']]]);
     
         try {
             $result = $client->delete('http://localhost:8080/messages/' . $userId . '/delete');

@@ -4,8 +4,9 @@ stdClass Object
     [data] => stdClass Object
         (
             [username] => test
-            [token] => eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjQwMTM3NiwiZXhwIjoxNjA2NDA4NTc2fQ.BISu3iUdKGiwJQWGVfjlL1TGWNKLtpnXyNDCSuBaZYU
-            [expires] => 1606408576
+            [userId] => 1
+            [token] => eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjQ4NTM5OCwiZXhwIjoxNjA2NDkyNTk4fQ.lZt4jAN34X9nD-TmpkhR5WPIrvWWC0E0ryuELsgK5Io
+            [expires] => 1606492598
         )
 
 )

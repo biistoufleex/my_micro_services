@@ -13,8 +13,11 @@ class GetSendMessageAction extends RequestAction
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('id');
+        if ($this->request->hasHeader('autorisation')) {
+            $token = $this->request->getHeader('autorisation');
+        }
 
-        $client = new Client(['headers' => ['autorisation' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjQwMTM3NiwiZXhwIjoxNjA2NDA4NTc2fQ.BISu3iUdKGiwJQWGVfjlL1TGWNKLtpnXyNDCSuBaZYU']]);
+        $client = new Client(['headers' => ['autorisation' => $token]]);
     
         try {
             $result = $client->get('http://localhost:8080/messages/send/' . $userId);

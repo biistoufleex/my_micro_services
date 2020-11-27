@@ -19,6 +19,7 @@ use App\Application\Actions\Message\DeleteMessageAction;
 use App\Application\Actions\Message\GetSendMessageAction;
 use App\Application\Actions\Message\GetReceiveMessageAction;
 use App\Application\Actions\Message\UpdateMessageAction;
+use App\Application\Actions\Message\AllDiscussionAction;
 
 
 
@@ -39,14 +40,15 @@ return function (App $app) {
         $group->post('/register', RegisterAction::class);
         $group->post('/login', LoginAction::class);
         $group->post('/update', UpdateAction::class);
-        $group->Delete('/{id}/delete', DeleteAction::class);
+        $group->post('/delete', DeleteAction::class);
         $group->get('/{id}', GetOneAction::class);
     });
 
     $app->group('/message', function (Group $group) {
         $group->get('', AllMessageAction::class);
+        $group->get('/{id}/discussion', AllDiscussionAction::class);
         $group->post('/create', CreateAction::class);
-        $group->delete('/{id}/delete', DeleteMessageAction::class);
+        $group->post('/{id}/delete', DeleteMessageAction::class);
         $group->get('/send/{id}', GetSendMessageAction::class);
         $group->get('/receive/{id}', GetReceiveMessageAction::class);
         $group->post('/update/{id}', UpdateMessageAction::class);

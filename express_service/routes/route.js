@@ -6,5 +6,6 @@ const validator = require("../middleware/discussionValidator");
 
 router.post('/checkOrCreate', validator.validateDiscussion, DiscussionController.checkDiscussions);
 router.delete('/delete', validator.validateDiscussion, DiscussionController.deleteDiscussions);
+router.get('/allDiscussion/:sender_id',  DiscussionController.getDiscussions);
 
 module.exports = router;

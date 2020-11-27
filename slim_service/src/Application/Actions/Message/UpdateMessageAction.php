@@ -34,7 +34,7 @@ class UpdateMessageAction extends MessageAction
 
         foreach($data as $key => $value) {
             if (isset($message->$key) && $key != 'id')
-                $message->$key = $value;
+                $message->$key = str_replace("+", " ", $value);
         }
         $message->save();
         return $this->respondWithData($message);

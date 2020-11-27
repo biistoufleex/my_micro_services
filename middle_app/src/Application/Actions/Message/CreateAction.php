@@ -14,10 +14,35 @@ class CreateAction extends RequestAction
     {
         // receiver_id sender_id content
         $data = $this->request->getParsedBody();
+        if (!isset($data['content']) || $data['content'] == "") {
+            return $this->respondWithData(['error' => 'Message required'], 400);
+        }
+        if (!isset($data['token']) || $data['token'] == "") {
+            return $this->respondWithData(['error' => 'Token required'], 400);
+        }
 
-        // recup token dans cookie
-        $client = new Client(['headers' => ['autorisation' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjM5ODQ2NCwiZXhwIjoxNjA2NDA1NjY0fQ.XihR0TxMpg0xlT1hXWiSF0d0AytSLxju8atHnRMheuM']]);
+        $token = $data['token'];
+        $client = new Client(['headers' => ['autorisation' => $token]]);
 
+        // check si la discussion existe
+        try {
+            $result = $client->request('POST', 'http://localhost:8000/checkOrCreate', [
+                'form_params' => [
+                    'sender' => $data['sender_id'],
+                    'receiver' => $data['receiver_id']
+                ]
+            ]);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+                return $response;
+            } else {
+                $response = $e->getHandlerContext();
+                return $response;
+            }
+        }
+
+        // save le message
         try {
             $result = $client->request('POST', 'http://localhost:8080/messages/create', [
                 'form_params' => [
@@ -37,6 +62,5 @@ class CreateAction extends RequestAction
         }
         $response = json_decode($result->getBody()->read(10241));
         return $this->respondWithData($response, 200);
-
     }
 }

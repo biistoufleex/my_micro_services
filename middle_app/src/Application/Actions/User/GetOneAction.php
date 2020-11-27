@@ -29,6 +29,9 @@ class GetOneAction extends RequestAction
         }
         $response = json_decode($result->getBody()->read(10241));
 
+        if (!isset($response->data)) {
+            return $this->respondWithData(['error' => 'user not found'], 400);
+        }
         return $this->respondWithData($response->data, 200);
     }
 }

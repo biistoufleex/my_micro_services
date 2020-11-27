@@ -6,6 +6,7 @@ namespace App\Application\Actions\Message;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Domain\Message\Message;
+use App\Domain\User\User;
 use \Firebase\JWT\JWT;
 
 class CreateMessageAction extends MessageAction
@@ -28,6 +29,11 @@ class CreateMessageAction extends MessageAction
         if ($userId != $token->userId)
             return $this->respondWithData(['error'=>'sender id incorect'], 400);
 
+        $exists = $this->user->where('id', 'like', $data['receiver_id'])->exists();
+        if (!$exists) {
+            return $this->respondWithData(['error'=>'receiver not found'], 400);
+        }
+        
         $message = new Message;
         $message->receiver_id = $data["receiver_id"];
         $message->sender_id = $data["sender_id"];

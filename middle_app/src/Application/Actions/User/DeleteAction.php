@@ -12,10 +12,20 @@ class DeleteAction extends RequestAction
 {
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('id');
-        // get cookie token
-        $client = new Client(['headers' => ['autorisation' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYwNjM5OTk2OCwiZXhwIjoxNjA2NDA3MTY4fQ.B_phhbxoDmsAKh134Yb73ehmkPbrTJlZ_g_KIYNKOMc']]);
-    
+        $data = $this->request->getParsedBody();
+       
+        if (!isset($data['token'])) {
+            return $this->respondWithData(['error' => 'token required'], 400);
+        }
+        $token = $data['token'];
+
+        if (!isset($data['id'])) {
+            return $this->respondWithData(['error' => 'id required'], 400);
+        }
+        $userId = $data['id'];
+
+        $client = new Client(['headers' => ['autorisation' => $token]]);
+
         try {
             $result = $client->delete('http://localhost:8080/users/' . $userId . '/delete');
 

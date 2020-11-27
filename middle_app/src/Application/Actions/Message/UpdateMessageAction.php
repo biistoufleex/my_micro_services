@@ -14,8 +14,15 @@ class UpdateMessageAction extends RequestAction
     {
         $messageId = (int) $this->resolveArg('id');
         $data = $this->request->getParsedBody();
-        // get cookie token
-        $client = new Client(['headers' => ['autorisation' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNjM5ODQ2NCwiZXhwIjoxNjA2NDA1NjY0fQ.XihR0TxMpg0xlT1hXWiSF0d0AytSLxju8atHnRMheuM']]);
+        if (!isset($data['content']) || $data['content'] == "") {
+            return $this->respondWithData(['error' => 'Message required'], 400);
+        }
+        if (!isset($data['token']) || $data['token'] == "") {
+            return $this->respondWithData(['error' => 'Token required'], 400);
+        }
+
+        $token = $data['token'];
+        $client = new Client(['headers' => ['autorisation' => $token]]);
     
         try {
             $result = $client->request('PUT', 'http://localhost:8080/messages/' . $messageId . '/update', [
